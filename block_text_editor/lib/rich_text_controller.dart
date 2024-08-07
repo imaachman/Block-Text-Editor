@@ -6,6 +6,11 @@ class RichTextController extends TextEditingController {
       {required BuildContext context,
       TextStyle? style,
       required bool withComposing}) {
-    return TextSpan(style: style?.copyWith(color: Colors.blue), text: text);
+    return TextSpan(
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge
+            ?.copyWith(fontWeight: FontWeight.w600),
+        text: text);
   }
 }
