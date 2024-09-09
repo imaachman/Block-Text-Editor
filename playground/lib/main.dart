@@ -15,6 +15,13 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   final controller = RichTextEditingController(text: 'Hello how are you?');
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,9 +35,15 @@ class _MainAppState extends State<MainApp> {
                 width: constraints.maxWidth / 1.5,
                 child: RichTextField(
                   controller: controller,
-                  // contextMenuBuilder: (context, editableTextState) {
-                  //   return const Text('TOOLBAR');
-                  // },
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Write something, or press \'/\' for commands...',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  maxLines: null,
                   selectionControls: SelectionToolbar(),
                 ),
               );
