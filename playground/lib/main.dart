@@ -1,4 +1,5 @@
 import 'package:block_text_editor/block_text_editor.dart';
+import 'package:block_text_editor/selection_toolbar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,15 +14,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  final TextEditingController controller = RichTextController();
-  final FocusNode focusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-    focusNode.requestFocus();
-  }
-
+  final controller = RichTextEditingController(text: 'Hello how are you?');
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,18 +26,12 @@ class _MainAppState extends State<MainApp> {
                 padding: const EdgeInsets.symmetric(vertical: 64),
                 height: constraints.maxHeight,
                 width: constraints.maxWidth / 1.5,
-                child: TextField(
+                child: RichTextField(
                   controller: controller,
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Write something, or press \'/\' for commands...',
-                    hintStyle: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  maxLines: null,
+                  // contextMenuBuilder: (context, editableTextState) {
+                  //   return const Text('TOOLBAR');
+                  // },
+                  selectionControls: SelectionToolbar(),
                 ),
               );
             },
