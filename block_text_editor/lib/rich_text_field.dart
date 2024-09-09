@@ -86,12 +86,19 @@ class _RichTextFieldSelectionGestureDetectorBuilder
     }
   }
 
+  // MY CODE: Show toolbar when the user stops dragging.
+  // We don't want to show the toolbar during drag, so we use this function to
+  // trigger the show.
   @override
   void onDragSelectionEnd(TapDragEndDetails details) {
     editableText.showToolbar();
     super.onDragSelectionEnd(details);
   }
 
+  // MY CODE: When no text is selected, we don't want to show the toolbar
+  // because we can't do anything with it, like bold or italicize text.
+  // By default, the toolbar is shown on secondary tap (i.e. right click), so we
+  // override the behavior here.
   @override
   void onSecondaryTap() {
     if (!renderEditable.selection!.isCollapsed) {
@@ -1365,9 +1372,14 @@ class _RichTextFieldState extends State<RichTextField>
       case TargetPlatform.macOS:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
+        // MY CODE: By default, the field hides the toolbar during drag. That's
+        // what we want as well. But we also want to hide it when no text is
+        // selected. So we added an additional condition.
         if (cause == SelectionChangedCause.drag || selection.isCollapsed) {
           _editableText?.hideToolbar();
         } else {
+          // MY CODE: And if selection is changed in any way apart from drag,
+          // like via keyboard, just show the toolbar.
           _editableText?.showToolbar();
         }
     }
