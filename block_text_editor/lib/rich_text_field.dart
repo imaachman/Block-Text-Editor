@@ -91,7 +91,9 @@ class _RichTextFieldSelectionGestureDetectorBuilder
   // trigger the show.
   @override
   void onDragSelectionEnd(TapDragEndDetails details) {
-    editableText.showToolbar();
+    if (!renderEditable.selection!.isCollapsed) {
+      editableText.showToolbar();
+    }
     super.onDragSelectionEnd(details);
   }
 
