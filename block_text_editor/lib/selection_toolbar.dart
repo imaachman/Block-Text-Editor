@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+const Offset kSelectionToolbarOffset = Offset(56, 56);
+
 class SelectionToolbar extends TextSelectionControls {
   @override
   Widget buildHandle(BuildContext context, TextSelectionHandleType type,
@@ -18,14 +20,24 @@ class SelectionToolbar extends TextSelectionControls {
       TextSelectionDelegate delegate,
       ValueListenable<ClipboardStatus>? clipboardStatus,
       Offset? lastSecondaryTapDownPosition) {
+    // [globalEditableRegion] gives us the exact global coordinates of the text
+    // field. [endpoints] are the left and right points of the selection region.
+    // [kSelectionToolbarOffset] is the constant offset to keep the toolbar
+    // visible right above the text, and a bit towards the left.
+    // [textLineHeight] is the line height of the text.
+    final double left = globalEditableRegion.left +
+        endpoints.first.point.dx -
+        kSelectionToolbarOffset.dx;
+    final double top = globalEditableRegion.top +
+        endpoints.first.point.dy -
+        textLineHeight -
+        kSelectionToolbarOffset.dy;
     return Stack(
       children: [
         Positioned(
-          left: endpoints.first.point.dx,
-          top: endpoints.first.point.dy - textLineHeight,
-          width: globalEditableRegion.width,
-          // height: globalEditableRegion.height,
-          child: const Text('TOOLBAR'),
+          left: left,
+          top: top,
+          child: const SelectionToolbarWidget(),
         ),
       ],
     );
@@ -47,5 +59,32 @@ class SelectionToolbar extends TextSelectionControls {
     // Copied Material implementation.
     const double kHandleSize = 22.0;
     return const Size(kHandleSize, kHandleSize);
+  }
+}
+
+class SelectionToolbarWidget extends StatelessWidget {
+  const SelectionToolbarWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.format_bold),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.format_italic),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.format_underline),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:block_text_editor/block_text_editor.dart';
-import 'package:block_text_editor/selection_toolbar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
