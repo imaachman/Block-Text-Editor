@@ -21,9 +21,13 @@ class SelectionToolbar extends TextSelectionControls {
       ValueListenable<ClipboardStatus>? clipboardStatus,
       Offset? lastSecondaryTapDownPosition) {
     // [globalEditableRegion] gives us the exact global coordinates of the text
-    // field. [endpoints] are the left and right points of the selection region.
+    // field.
+    //
+    // [endpoints] are the left and right points of the selection region.
+    //
     // [kSelectionToolbarOffset] is the constant offset to keep the toolbar
     // visible right above the text, and a bit towards the left.
+    //
     // [textLineHeight] is the line height of the text.
     final double left = globalEditableRegion.left +
         endpoints.first.point.dx -
@@ -32,6 +36,7 @@ class SelectionToolbar extends TextSelectionControls {
         endpoints.first.point.dy -
         textLineHeight -
         kSelectionToolbarOffset.dy;
+
     return Stack(
       children: [
         Positioned(
